@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,9 +31,13 @@ public class Artist {
 	@JoinColumn(name="artist_detail_id")
 	private ArtistDetail artistDetail;
 	
-	@OneToMany(mappedBy = "artist",fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+	@OneToMany(mappedBy = "artist", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
 	@JsonManagedReference
 	private List<Album> albums;
+	
+	@OneToMany(mappedBy = "artist", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+	@JsonManagedReference
+	private List<Song> songs;
 
 	public Artist() {
 	}
@@ -74,12 +77,20 @@ public class Artist {
 	public void setAlbums(List<Album> albums) {
 		this.albums = albums;
 	}
+	
+	
+	public List<Song> getSongs() {
+		return songs;
+	}
+
+	public void setSongs(List<Song> songs) {
+		this.songs = songs;
+	}
 
 	@Override
 	public String toString() {
 		return "Artist [id=" + id + ", name=" + name + ", artistDetail=" + artistDetail + "]";
 	}
-	
 	
 }
 

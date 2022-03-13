@@ -1,25 +1,21 @@
 package hr.rokym.springboot.musicdbhibernate.entity;
 
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-@Table(name="album")
-public class Album {
+@Table(name="song")
+public class Song {
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,62 +27,57 @@ public class Album {
 	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="artist_id")
-	@JsonBackReference
+	@JsonBackReference 
 	private Artist artist;
 	
-	@OneToMany(mappedBy = "album",fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-	@JsonManagedReference
-	private List<Song> songs;
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+	@JoinColumn(name="album_id")
+	@JsonBackReference
+	private Album album;
 
-	public Album() {
+	public Song() {
 	}
 
-	public Album(String title) {
+	public Song(String title) {
 		this.title = title;
 	}
-
 
 	public int getId() {
 		return id;
 	}
 
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
 
 	public String getTitle() {
 		return title;
 	}
 
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 
 	public Artist getArtist() {
 		return artist;
 	}
 
-
 	public void setArtist(Artist artist) {
 		this.artist = artist;
 	}
 
-	
-
-	public List<Song> getSongs() {
-		return songs;
+	public Album getAlbum() {
+		return album;
 	}
 
-	public void setSongs(List<Song> songs) {
-		this.songs = songs;
+	public void setAlbum(Album album) {
+		this.album = album;
 	}
 
 	@Override
 	public String toString() {
-		return "Album [id=" + id + ", title=" + title + ", artist=" + artist + "]";
+		return "song [id=" + id + ", title=" + title + ", artist=" + artist + ", album=" + album + "]";
 	}
+	
+	
 }

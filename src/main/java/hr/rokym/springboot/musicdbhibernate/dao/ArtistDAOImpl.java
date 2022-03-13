@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import hr.rokym.springboot.musicdbhibernate.entity.Artist;
 
 @Repository
@@ -23,7 +22,6 @@ public class ArtistDAOImpl implements ArtistDAO {
 	}
 	
 	@Override
-	@Transactional
 	public List<Artist> findAll() {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
@@ -35,4 +33,50 @@ public class ArtistDAOImpl implements ArtistDAO {
 		return artists;
 	}
 
+	@Override
+	public Artist findById(int theId) {
+		
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		Artist theArtist = currentSession.get(Artist.class, theId);
+		
+		
+		return theArtist;
+	}
+
+	@Override
+	public void save(Artist theArtist) {
+		
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		currentSession.saveOrUpdate(theArtist);
+		
+	}
+
+	@Override
+	public void deleteById(int theId) {
+		
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		@SuppressWarnings("rawtypes")
+		Query theQuery = currentSession.createQuery("delete from Artist where id=:artistId");
+		
+		theQuery.setParameter("artistId", theId);
+		
+		theQuery.executeUpdate();
+		
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+

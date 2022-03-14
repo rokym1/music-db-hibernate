@@ -13,8 +13,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, 
+property = "id")
 @Entity
 @Table(name="artist")
 public class Artist {
@@ -32,11 +35,9 @@ public class Artist {
 	private ArtistDetail artistDetail;
 	
 	@OneToMany(mappedBy = "artist", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-	@JsonManagedReference
 	private List<Album> albums;
 	
 	@OneToMany(mappedBy = "artist", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-	@JsonManagedReference
 	private List<Song> songs;
 
 	public Artist() {

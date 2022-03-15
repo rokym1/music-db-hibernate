@@ -1,5 +1,7 @@
 package hr.rokym.springboot.musicdbhibernate.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,12 +21,22 @@ public class ArtistDetailServiceImpl implements ArtistDetailService {
 	
 	@Override
 	@Transactional
+	public List<ArtistDetail> findAll() {
+		
+		return artistDetailDAO.findAll();
+	}
+
+
+
+	@Override
+	@Transactional
 	public ArtistDetail findById(int theId) {
 		
 		return artistDetailDAO.findById(theId);
 	}
 
 	@Override
+	@Transactional
 	public void save(ArtistDetail theArtistDetail) {
 		
 		artistDetailDAO.save(theArtistDetail);
@@ -32,6 +44,7 @@ public class ArtistDetailServiceImpl implements ArtistDetailService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteById(int theId) {
 		
 		artistDetailDAO.deleteById(theId);

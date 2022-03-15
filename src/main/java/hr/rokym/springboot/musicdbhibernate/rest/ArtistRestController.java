@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import hr.rokym.springboot.musicdbhibernate.entity.Artist;
+import hr.rokym.springboot.musicdbhibernate.entity.ArtistDetail;
+import hr.rokym.springboot.musicdbhibernate.service.ArtistDetailService;
 import hr.rokym.springboot.musicdbhibernate.service.ArtistService;
 
 @RestController
@@ -21,9 +23,12 @@ public class ArtistRestController {
 
 	private ArtistService artistService;
 	
+	private ArtistDetailService artistDetailService;
+	
 	@Autowired
-	public ArtistRestController(ArtistService theArtistService) {
-		artistService = theArtistService;
+	public ArtistRestController(ArtistService artistService, ArtistDetailService artistDetailService) {
+		this.artistService = artistService;
+		this.artistDetailService = artistDetailService;
 	}
 	
 	@GetMapping("/artists")
@@ -43,10 +48,18 @@ public class ArtistRestController {
 		return theArtist;
 	}
 	
-	@PostMapping("/artists")
-	public Artist addArtist(@RequestBody Artist theArtist) {
+	@PostMapping("/artists/{detailId}")
+	public Artist addArtist(@PathVariable int detailId, @RequestBody Artist theArtist) {
+		
+		ArtistDetail detail = artistDetailService.findById(detailId);
+		
+		if(detail == null) {
+			throw new RuntimeException("Detail not found!");
+		}
 		
 		theArtist.setId(0);
+		
+		theArtist.setArtistDetail(detail);
 		
 		artistService.save(theArtist);
 		

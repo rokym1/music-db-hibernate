@@ -1,5 +1,7 @@
 package hr.rokym.springboot.musicdbhibernate.rest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,11 @@ public class ArtistDetailRestController {
 	@Autowired
 	public ArtistDetailRestController(ArtistDetailService theArtistDetailService) {
 		artistDetailService = theArtistDetailService;
+	}
+	
+	@GetMapping("/details")
+	public List<ArtistDetail> findAll() {
+		return artistDetailService.findAll();
 	}
 	
 	@GetMapping("/details/{detailId}")

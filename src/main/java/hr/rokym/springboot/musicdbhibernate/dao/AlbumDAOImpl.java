@@ -8,62 +8,65 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import hr.rokym.springboot.musicdbhibernate.entity.Artist;
+
+import hr.rokym.springboot.musicdbhibernate.entity.Album;
 
 @Repository
-public class ArtistDAOImpl implements ArtistDAO {
+public class AlbumDAOImpl implements AlbumDAO {
 
 	private EntityManager entityManager;
 	
 	@Autowired
-	public ArtistDAOImpl(EntityManager theEntityManager) {
-	
-		entityManager = theEntityManager;
+	public AlbumDAOImpl(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 	
 	@Override
-	public List<Artist> findAll() {
+	public List<Album> findAll() {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query<Artist> theQuery = currentSession.createQuery("from Artist", Artist.class);
+		Query<Album> query = currentSession.createQuery("from Album", Album.class);
 		
-		List<Artist> artists = theQuery.getResultList();
+		List<Album> albums = query.getResultList();
 		
-		return artists;
+		return albums;
 	}
 
 	@Override
-	public Artist findById(int theId) {
+	public Album findById(int theId) {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Artist theArtist = currentSession.get(Artist.class, theId);
+		Album album = currentSession.get(Album.class, theId);
 		
-		return theArtist;
+		return album;
 	}
 
 	@Override
-	public void save(Artist theArtist) {
+	public void save(Album album) {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		currentSession.saveOrUpdate(theArtist);
+		currentSession.saveOrUpdate(album);
 	}
 
 	@Override
 	public void deleteById(int theId) {
-		
+
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 		@SuppressWarnings("rawtypes")
-		Query theQuery = currentSession.createQuery("delete from Artist where id=:artistId");
+		Query theQuery = currentSession.createQuery("delete from Album where id=:albumId");
 		
-		theQuery.setParameter("artistId", theId);
+		theQuery.setParameter("albumId", theId);
 		
 		theQuery.executeUpdate();
+
 	}
+
 }
+
 
 
 

@@ -1,5 +1,7 @@
 package hr.rokym.springboot.musicdbhibernate.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import org.hibernate.Session;
@@ -17,6 +19,18 @@ public class ArtistDetailDAOImpl implements ArtistDetailDAO {
 	@Autowired
 	public ArtistDetailDAOImpl(EntityManager theEntityManager) {
 		entityManager = theEntityManager;
+	}
+	
+	@Override
+	public List<ArtistDetail> findAll() {
+		
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		Query<ArtistDetail> query = currentSession.createQuery("from ArtistDetail", ArtistDetail.class);
+		
+		List<ArtistDetail> details = query.getResultList();
+		
+		return details;
 	}
 	
 	@Override
@@ -53,6 +67,7 @@ public class ArtistDetailDAOImpl implements ArtistDetailDAO {
 		theQuery.executeUpdate();
 
 	}
+
 
 }
 

@@ -20,7 +20,7 @@ import hr.rokym.springboot.musicdbhibernate.service.ArtistService;
 import hr.rokym.springboot.musicdbhibernate.service.SongService;
 
 @RestController
-@RequestMapping("/api/song")
+@RequestMapping("/api/songs")
 public class SongRestController {
 
 	private SongService songService;
@@ -38,13 +38,13 @@ public class SongRestController {
 		this.albumService = albumService;
 	}
 	
-	@GetMapping("/songs")
+	@GetMapping("/all")
 	public List<Song> findAll() {
 		
 		return songService.findAll();
 	}
 	
-	@GetMapping("/songs/{id}")
+	@GetMapping("/find/{id}")
 	public Song getSong(@PathVariable int id) {
 		
 		Song song = songService.findById(id);
@@ -56,7 +56,7 @@ public class SongRestController {
 		return song;
 	}
 	
-	@PostMapping("/songs-multiple/{albumId}/{artistId}")
+	@PostMapping("/add-multiple/{albumId}/{artistId}")
 	public Song[] addMultipleSongs(@PathVariable int albumId, @PathVariable int artistId, 
 			@RequestBody Song[] songs) {
 		
@@ -86,7 +86,7 @@ public class SongRestController {
 		return songs;
 	}
 	
-	@PutMapping("/songs")
+	@PutMapping("/update")
 	public Song updateSong(@RequestBody Song song) {
 		
 		songService.save(song);
@@ -94,7 +94,7 @@ public class SongRestController {
 		return song;
 	}
 	
-	@DeleteMapping("/songs/{id}")
+	@DeleteMapping("/delete/{id}")
 	public String deleteSong(@PathVariable int id) {
 		
 		Song song = songService.findById(id);

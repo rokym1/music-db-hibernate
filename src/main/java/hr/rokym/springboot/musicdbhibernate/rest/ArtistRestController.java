@@ -18,7 +18,7 @@ import hr.rokym.springboot.musicdbhibernate.service.ArtistDetailService;
 import hr.rokym.springboot.musicdbhibernate.service.ArtistService;
 
 @RestController
-@RequestMapping("/api/artists")
+@RequestMapping("/api")
 public class ArtistRestController {
 
 	private ArtistService artistService;
@@ -31,12 +31,12 @@ public class ArtistRestController {
 		this.artistDetailService = artistDetailService;
 	}
 	
-	@GetMapping("/all")
+	@GetMapping("/artists")
 	public List<Artist> findAll() {
 		return artistService.findAll();
 	}
 	
-	@GetMapping("/find/{artistId}")
+	@GetMapping("/artists/{artistId}")
 	public Artist getArtist(@PathVariable int artistId) {
 		
 		Artist theArtist = artistService.findById(artistId);
@@ -48,7 +48,7 @@ public class ArtistRestController {
 		return theArtist;
 	}
 	
-	@PostMapping("/add/{detailId}")
+	@PostMapping("/artists/{detailId}")
 	public Artist addArtist(@PathVariable int detailId, @RequestBody Artist theArtist) {
 		
 		ArtistDetail detail = artistDetailService.findById(detailId);
@@ -66,7 +66,7 @@ public class ArtistRestController {
 		return theArtist;
 	}
 	
-	@PutMapping("/update")
+	@PutMapping("/artists")
 	public Artist updateArtist(@RequestBody Artist theArtist) {
 		
 		artistService.save(theArtist);
@@ -74,7 +74,7 @@ public class ArtistRestController {
 		return theArtist;
 	}
 	
-	@DeleteMapping("/delete/{artistId}")
+	@DeleteMapping("/artists/{artistId}")
 	public String deleteArtist(@PathVariable int artistId) {
 		
 		
@@ -86,7 +86,7 @@ public class ArtistRestController {
 		
 		artistService.deleteById(artistId);
 		
-		return "Deleted artist id = " + artistId;
+		return "Deleted artist " + tempArtist.getName();
 	}
 }
 
